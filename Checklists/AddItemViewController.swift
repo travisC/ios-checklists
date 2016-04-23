@@ -9,11 +9,20 @@
 import Foundation
 import UIKit
 
+//Create delegate to pass cancel and finish items
+protocol AddItemViewControllerDelegate: class {
+    func addItemViewControllerDidCancel(controller: AddItemViewController)
+    func addItemViewController(controller: AddItemViewController, didFinishAddingItem item: ChecklistItem)
+}
+
+
 class AddItemViewController: UITableViewController, UITextFieldDelegate {
     
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
     
+    //Add Property for the delegate
+    weak var delegate: AddItemViewControllerDelegate?
     
     //Automatically Show Keyboard
     override func viewWillAppear(animated: Bool) {
@@ -25,19 +34,19 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate {
     //Cancel Action
     @IBAction func cancel() {
         
-        //Clear View
-        dismissViewControllerAnimated(true, completion: nil)
+        //Attach he cancel delegate
+        delegate?.addItemViewControllerDidCancel(self)
     }
     
     //Done Action
     @IBAction func done() {
         
-        //Test value in the textfield
-        //print("Contents of the text field: \(textField.text!)")
+        let item = ChecklistItem()
+        item.text = textField.text!
+        item.checked = false
         
+        delegate?.addItemViewController(self, didFinishAddingItem: item)
         
-        //Clear View
-        dismissViewControllerAnimated(true, completion: nil)
     }
     
     //Prevent the cell from being selected
