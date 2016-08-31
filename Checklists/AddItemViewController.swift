@@ -11,8 +11,8 @@ import UIKit
 
 //Create delegate to pass cancel and finish items
 protocol AddItemViewControllerDelegate: class {
-    func addItemViewControllerDidCancel(controller: AddItemViewController)
-    func addItemViewController(controller: AddItemViewController, didFinishAddingItem item: ChecklistItem)
+    func addItemViewControllerDidCancel(_ controller: AddItemViewController)
+    func addItemViewController(_ controller: AddItemViewController, didFinishAddingItem item: ChecklistItem)
 }
 
 
@@ -25,7 +25,7 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate {
     weak var delegate: AddItemViewControllerDelegate?
     
     //Automatically Show Keyboard
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         textField.becomeFirstResponder()
     }
@@ -50,17 +50,17 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate {
     }
     
     //Prevent the cell from being selected
-    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) ->NSIndexPath? {
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) ->IndexPath? {
         return nil
     }
     
     //TextField Delegate
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let oldText: NSString = textField.text!
-        let newText: NSString = oldText.stringByReplacingCharactersInRange(range, withString: string)
+        let newText: NSString = oldText.replacingCharacters(in: range, with: string)
         
         
-        doneBarButton.enabled = (newText.length > 0)
+        doneBarButton.isEnabled = (newText.length > 0)
         
         return true
     }

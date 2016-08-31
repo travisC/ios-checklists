@@ -59,14 +59,14 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
     }
     
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("ChecklistItem", forIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistItem", for: indexPath)
         
-        let item = items[indexPath.row]
+        let item = items[(indexPath as NSIndexPath).row]
         
         configureTextForCell(cell, withChecklistItem: item)
         configureCheckmarkForCell(cell, withChecklistItem: item)
@@ -74,36 +74,39 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
         return cell
     }
     
-    override func tableView(tableView:UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
-        if let cell = tableView.cellForRowAtIndexPath(indexPath) {
-            let item = items[indexPath.row]
+    override func tableView(_ tableView:UITableView, didSelectRowAt indexPath: IndexPath){
+        if let cell = tableView.cellForRow(at: indexPath) {
+            let item = items[(indexPath as NSIndexPath).row]
 
             item.toggleChecked()
             configureCheckmarkForCell(cell, withChecklistItem: item)
         }
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath){
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath){
         //1 - Remove from Data Model
-        items.removeAtIndex(indexPath.row)
+        items.remove(at: (indexPath as NSIndexPath).row)
         
         //2 - Remove from Table View
         let indexPaths = [indexPath]
-        tableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+        tableView.deleteRows(at: indexPaths, with: .automatic)
         
     }
     
     
-    func configureCheckmarkForCell(cell: UITableViewCell, withChecklistItem item: ChecklistItem) {
+    func configureCheckmarkForCell(_ cell: UITableViewCell, withChecklistItem item: ChecklistItem) {
+        
+        let label = cell.viewWithTag(1001) as! UILabel
+        
         if item.checked {
-            cell.accessoryType = .Checkmark
+            label.text = "√"
         } else {
-            cell.accessoryType = .None
+            label.text = ""
         }
     }
     
-    func configureTextForCell(cell: UITableViewCell,
+    func configureTextForCell(_ cell: UITableViewCell,
                               withChecklistItem item: ChecklistItem) {
         let label = cell.viewWithTag(1000) as! UILabel
         label.text = item.text
@@ -111,27 +114,27 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
     
     
     //Delegate Methods from AddItemViewController
-    func addItemViewControllerDidCancel(controller: AddItemViewController) {
-        dismissViewControllerAnimated(true,completion: nil)
+    func addItemViewControllerDidCancel(_ controller: AddItemViewController) {
+        dismiss(animated: true,completion: nil)
     }
     
-    func addItemViewController(controller: AddItemViewController, didFinishAddingItem item: ChecklistItem) {
+    func addItemViewController(_ controller: AddItemViewController, didFinishAddingItem item: ChecklistItem) {
 
         let newRowIndex = items.count
         
         items.append(item)
         
-        let indexPath = NSIndexPath(forRow: newRowIndex, inSection: 0)
+        let indexPath = IndexPath(row: newRowIndex, section: 0)
         let indexPaths = [indexPath]
         
-        tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+        tableView.insertRows(at: indexPaths, with: .automatic)
         
-        dismissViewControllerAnimated(true,completion: nil)
+        dismiss(animated: true,completion: nil)
     }
     
     
     //Attach delegate to seque
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
         //1
         if segue.identifier == "AddItem" {
             //2
