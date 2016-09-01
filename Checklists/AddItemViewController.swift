@@ -11,8 +11,9 @@ import UIKit
 
 //Create delegate to pass cancel and finish items
 protocol AddItemViewControllerDelegate: class {
-    func addItemViewControllerDidCancel(_ controller: AddItemViewController)
-    func addItemViewController(_ controller: AddItemViewController, didFinishAddingItem item: ChecklistItem)
+    func addItemViewControllerDidCancel(controller: AddItemViewController)
+    func addItemViewController(controller: AddItemViewController, didFinishAddingItem item: ChecklistItem)
+    func addItemViewController(controller: AddItemViewController, didFinishEditingItem item: ChecklistItem)
 }
 
 
@@ -48,17 +49,20 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate {
     @IBAction func cancel() {
         
         //Attach he cancel delegate
-        delegate?.addItemViewControllerDidCancel(self)
+        delegate?.addItemViewControllerDidCancel(controller: self)
     }
     
     //Done Action
     @IBAction func done() {
-        
-        let item = ChecklistItem()
-        item.text = textField.text!
-        item.checked = false
-        
-        delegate?.addItemViewController(self, didFinishAddingItem: item)
+        if let item = itemToEdit {
+            item.text = textField.text!
+            delegate?.addItemViewController(controller: self, didFinishEditingItem: item)
+        } else {
+            let item = ChecklistItem()
+            item.text = textField.text!
+            item.checked = false
+            delegate?.addItemViewController(controller: self, didFinishAddingItem: item)
+        }
         
     }
     

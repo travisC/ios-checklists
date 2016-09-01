@@ -114,11 +114,11 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
     
     
     //Delegate Methods from AddItemViewController
-    func addItemViewControllerDidCancel(_ controller: AddItemViewController) {
+    func addItemViewControllerDidCancel(controller: AddItemViewController) {
         dismiss(animated: true,completion: nil)
     }
     
-    func addItemViewController(_ controller: AddItemViewController, didFinishAddingItem item: ChecklistItem) {
+    func addItemViewController(controller: AddItemViewController, didFinishAddingItem item: ChecklistItem) {
 
         let newRowIndex = items.count
         
@@ -130,6 +130,16 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
         tableView.insertRows(at: indexPaths, with: .automatic)
         
         dismiss(animated: true,completion: nil)
+    }
+    
+    func addItemViewController(controller: AddItemViewController, didFinishEditingItem item: ChecklistItem) {
+        if let index = items.index(of: item) {
+            let indexPath = IndexPath(row: index, section: 0)
+            if let cell = tableView.cellForRow(at: indexPath) {
+                configureTextForCell(cell, withChecklistItem: item)
+            }
+        }
+        dismiss(animated: true, completion: nil)
     }
     
     
