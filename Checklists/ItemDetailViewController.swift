@@ -73,8 +73,8 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
     
     //TextField Delegate
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let oldText: NSString = textField.text!
-        let newText: NSString = oldText.replacingCharacters(in: range, with: string)
+        let oldText: NSString = textField.text! as NSString
+        let newText: NSString = oldText.replacingCharacters(in: range, with: string) as NSString
         
         
         doneBarButton.isEnabled = (newText.length > 0)

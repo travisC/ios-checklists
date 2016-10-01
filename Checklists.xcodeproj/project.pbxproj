@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F63AD0A1DA001F900C291BE /* Checklist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F63AD091DA001F900C291BE /* Checklist.swift */; };
 		1F63EA4E1CCC1AE600A42F0C /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F63EA4D1CCC1AE600A42F0C /* ItemDetailViewController.swift */; };
 		1F7AFA931CBF300500B2BC58 /* ChecklistItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7AFA921CBF300500B2BC58 /* ChecklistItem.swift */; };
 		1F996B031C8B8C070045F4CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F996B021C8B8C070045F4CB /* AppDelegate.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1F63AD091DA001F900C291BE /* Checklist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checklist.swift; sourceTree = "<group>"; };
 		1F63EA4D1CCC1AE600A42F0C /* ItemDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ItemDetailViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		1F7AFA921CBF300500B2BC58 /* ChecklistItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChecklistItem.swift; sourceTree = "<group>"; };
 		1F996AFF1C8B8C070045F4CB /* Checklists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Checklists.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,6 +71,7 @@
 				1F7AFA921CBF300500B2BC58 /* ChecklistItem.swift */,
 				1F63EA4D1CCC1AE600A42F0C /* ItemDetailViewController.swift */,
 				1FDCDF5D1D7F8B2400758B03 /* AllListsViewController.swift */,
+				1F63AD091DA001F900C291BE /* Checklist.swift */,
 			);
 			path = Checklists;
 			sourceTree = "<group>";
@@ -100,11 +103,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Travis Cunningham";
 				TargetAttributes = {
 					1F996AFE1C8B8C070045F4CB = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = HLC77V4C4H;
 						LastSwiftMigration = 0800;
 					};
 				};
@@ -147,6 +151,7 @@
 			files = (
 				1F996B051C8B8C070045F4CB /* ChecklistViewController.swift in Sources */,
 				1F63EA4E1CCC1AE600A42F0C /* ItemDetailViewController.swift in Sources */,
+				1F63AD0A1DA001F900C291BE /* Checklist.swift in Sources */,
 				1F7AFA931CBF300500B2BC58 /* ChecklistItem.swift in Sources */,
 				1FDCDF5E1D7F8B2400758B03 /* AllListsViewController.swift in Sources */,
 				1F996B031C8B8C070045F4CB /* AppDelegate.swift in Sources */,
@@ -189,13 +194,16 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = HLC77V4C4H;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -234,13 +242,16 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = HLC77V4C4H;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;

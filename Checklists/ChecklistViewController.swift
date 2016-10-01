@@ -137,11 +137,11 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
     
     
     //Attach delegate to seque
-    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+    func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
         //1
         if segue.identifier == "AddItem" {
             //2
-            let navigationController = segue.destinationViewController as! UINavigationController
+            let navigationController = segue.destination as! UINavigationController
             
             //3
             let controller = navigationController.topViewController as! ItemDetailViewController
@@ -149,7 +149,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
             //4
             controller.delegate = self
         } else if segue.identifier == "EditItem" {
-            let navigationController = segue.destinationViewController
+            let navigationController = segue.destination
                 as! UINavigationController
             let controller = navigationController.topViewController
                 as! ItemDetailViewController
