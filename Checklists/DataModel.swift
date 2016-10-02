@@ -4,6 +4,9 @@ class DataModel {
   var lists = [Checklist]()
   
   init() {
+    //print("Documents folder is \(documentsDirectory())")
+    //print("Data file path is \(dataFilePath())")
+    
     loadChecklists()
   }
   
