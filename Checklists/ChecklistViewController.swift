@@ -58,6 +58,8 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
     } else {
       label.text = ""
     }
+    
+    label.textColor = view.tintColor
   }
   
   override func tableView(_ tableView: UITableView,

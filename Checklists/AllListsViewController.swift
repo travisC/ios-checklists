@@ -9,6 +9,7 @@
 import UIKit
 
 class AllListsViewController: UITableViewController, ListDetailViewControllerDelegate, UINavigationControllerDelegate {
+
   var dataModel: DataModel!
 
   override func viewDidLoad() {
@@ -22,14 +23,16 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    
     navigationController?.delegate = self
+    
     let index = dataModel.indexOfSelectedChecklist
     if index >= 0 && index < dataModel.lists.count {
       let checklist = dataModel.lists[index]
       performSegue(withIdentifier: "ShowChecklist", sender: checklist)
     }
   }
-  
+
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
@@ -41,7 +44,8 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
     return dataModel.lists.count
   }
   
-  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+  override func tableView(_ tableView: UITableView,
+                          cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
     let cell = makeCell(for: tableView)
 
@@ -58,6 +62,7 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
       cell.detailTextLabel!.text = "\(count) Remaining"
     }
     
+    cell.imageView!.image = UIImage(named: checklist.iconName)
     return cell
   }
 
@@ -67,25 +72,31 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
       tableView.dequeueReusableCell(withIdentifier: cellIdentifier) {
       return cell
     } else {
-      return UITableViewCell(style: .subtitle, reuseIdentifier: cellIdentifier)
+      return UITableViewCell(style: .subtitle,
+                             reuseIdentifier: cellIdentifier)
     }
   }
   
-  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+  override func tableView(_ tableView: UITableView,
+                          didSelectRowAt indexPath: IndexPath) {
+
     dataModel.indexOfSelectedChecklist = indexPath.row
     
     let checklist = dataModel.lists[indexPath.row]
     performSegue(withIdentifier: "ShowChecklist", sender: checklist)
   }
   
-  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+  override func tableView(_ tableView: UITableView,
+                          commit editingStyle: UITableViewCellEditingStyle,
+                          forRowAt indexPath: IndexPath) {
     dataModel.lists.remove(at: indexPath.row)
     
     let indexPaths = [indexPath]
     tableView.deleteRows(at: indexPaths, with: .automatic)
   }
   
-  override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+  override func tableView(_ tableView: UITableView,
+                          accessoryButtonTappedForRowWith indexPath: IndexPath) {
     
     let navigationController = storyboard!.instantiateViewController(
       withIdentifier: "ListDetailNavigationController")
@@ -119,14 +130,16 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
     dismiss(animated: true, completion: nil)
   }
   
-  func listDetailViewController(_ controller: ListDetailViewController, didFinishAdding checklist: Checklist) {
+  func listDetailViewController(_ controller: ListDetailViewController,
+                                didFinishAdding checklist: Checklist) {
     dataModel.lists.append(checklist)
     dataModel.sortChecklists()
     tableView.reloadData()
     dismiss(animated: true, completion: nil)
   }
   
-  func listDetailViewController(_ controller: ListDetailViewController, didFinishEditing checklist: Checklist) {
+  func listDetailViewController(_ controller: ListDetailViewController,
+                                didFinishEditing checklist: Checklist) {
     dataModel.sortChecklists()
     tableView.reloadData()
     dismiss(animated: true, completion: nil)
@@ -138,5 +151,4 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
       dataModel.indexOfSelectedChecklist = -1
     }
   }
-  
 }
