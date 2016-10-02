@@ -8,11 +8,21 @@
 
 import UIKit
 
-class AllListsViewController: UITableViewController, ListDetailViewControllerDelegate {
+class AllListsViewController: UITableViewController, ListDetailViewControllerDelegate, UINavigationControllerDelegate {
   var dataModel: DataModel!
 
   override func viewDidLoad() {
     super.viewDidLoad()
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    navigationController?.delegate = self
+    let index = dataModel.indexOfSelectedChecklist
+    if index >= 0 && index < dataModel.lists.count {
+      let checklist = dataModel.lists[index]
+      performSegue(withIdentifier: "ShowChecklist", sender: checklist)
+    }
   }
   
   override func didReceiveMemoryWarning() {
@@ -26,8 +36,7 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
     return dataModel.lists.count
   }
   
-  override func tableView(_ tableView: UITableView,
-                          cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
     let cell = makeCell(for: tableView)
 
@@ -49,23 +58,21 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
     }
   }
   
-  override func tableView(_ tableView: UITableView,
-                          didSelectRowAt indexPath: IndexPath) {
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    dataModel.indexOfSelectedChecklist = indexPath.row
+    
     let checklist = dataModel.lists[indexPath.row]
     performSegue(withIdentifier: "ShowChecklist", sender: checklist)
   }
   
-  override func tableView(_ tableView: UITableView,
-                          commit editingStyle: UITableViewCellEditingStyle,
-                          forRowAt indexPath: IndexPath) {
+  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     dataModel.lists.remove(at: indexPath.row)
     
     let indexPaths = [indexPath]
     tableView.deleteRows(at: indexPaths, with: .automatic)
   }
   
-  override func tableView(_ tableView: UITableView,
-                          accessoryButtonTappedForRowWith indexPath: IndexPath) {
+  override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
     
     let navigationController = storyboard!.instantiateViewController(
       withIdentifier: "ListDetailNavigationController")
@@ -121,4 +128,12 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
     }
     dismiss(animated: true, completion: nil)
   }
+  
+  func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+    // Was the back button tapped?
+    if viewController === self {
+      dataModel.indexOfSelectedChecklist = -1
+    }
+  }
+  
 }
