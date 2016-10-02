@@ -2,86 +2,75 @@
 //  ItemDetailViewController.swift
 //  Checklists
 //
-//  Created by Travis Cunningham on 4/23/16.
-//  Copyright © 2016 Travis Cunningham. All rights reserved.
+//  Created by Matthijs on 06/07/2016.
+//  Copyright © 2016 Razeware. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-//Create delegate to pass cancel and finish items
 protocol ItemDetailViewControllerDelegate: class {
-    func ItemDetailViewControllerDidCancel(controller: ItemDetailViewController)
-    func ItemDetailViewController(controller: ItemDetailViewController, didFinishAddingItem item: ChecklistItem)
-    func ItemDetailViewController(controller: ItemDetailViewController, didFinishEditingItem item: ChecklistItem)
+  func itemDetailViewControllerDidCancel(_ controller: ItemDetailViewController)
+  func itemDetailViewController(_ controller: ItemDetailViewController,
+                             didFinishAdding item: ChecklistItem)
+  func itemDetailViewController(_ controller: ItemDetailViewController,
+                             didFinishEditing item: ChecklistItem)
 }
 
-
 class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
-    
-    @IBOutlet weak var textField: UITextField!
-    @IBOutlet weak var doneBarButton: UIBarButtonItem!
-    
-    //Add Property for the delegate
-    weak var delegate: ItemDetailViewControllerDelegate?
-    
-    
-    var itemToEdit: ChecklistItem?
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        if let item = itemToEdit {
-            title = "Edit Item"
-            textField.text = item.text
-            doneBarButton.isEnabled = true
-        }
+
+  @IBOutlet weak var textField: UITextField!
+  @IBOutlet weak var doneBarButton: UIBarButtonItem!
+
+  weak var delegate: ItemDetailViewControllerDelegate?
+
+  var itemToEdit: ChecklistItem?
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    if let item = itemToEdit {
+      title = "Edit Item"
+      textField.text = item.text
+      doneBarButton.isEnabled = true
     }
-    
-    
-    //Automatically Show Keyboard
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        textField.becomeFirstResponder()
+  }
+
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    textField.becomeFirstResponder()
+  }
+
+  @IBAction func cancel() {
+    delegate?.itemDetailViewControllerDidCancel(self)
+  }
+  
+  @IBAction func done() {
+    if let item = itemToEdit {
+      item.text = textField.text!
+      delegate?.itemDetailViewController(self, didFinishEditing: item)
+      
+    } else {
+      let item = ChecklistItem()
+      item.text = textField.text!
+      item.checked = false
+      delegate?.itemDetailViewController(self, didFinishAdding: item)
     }
+  }
+
+  override func tableView(_ tableView: UITableView,
+                          willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+    return nil
+  }
+  
+  func textField(_ textField: UITextField,
+                 shouldChangeCharactersIn range: NSRange,
+                 replacementString string: String) -> Bool {
     
+    let oldText = textField.text! as NSString
+    let newText = oldText.replacingCharacters(in: range, with: string) as NSString
     
-    //Cancel Action
-    @IBAction func cancel() {
-        
-        //Attach he cancel delegate
-        delegate?.ItemDetailViewControllerDidCancel(controller: self)
-    }
-    
-    //Done Action
-    @IBAction func done() {
-        if let item = itemToEdit {
-            item.text = textField.text!
-            delegate?.ItemDetailViewController(controller: self, didFinishEditingItem: item)
-        } else {
-            let item = ChecklistItem()
-            item.text = textField.text!
-            item.checked = false
-            delegate?.ItemDetailViewController(controller: self, didFinishAddingItem: item)
-        }
-        
-    }
-    
-    //Prevent the cell from being selected
-    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) ->IndexPath? {
-        return nil
-    }
-    
-    //TextField Delegate
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let oldText: NSString = textField.text! as NSString
-        let newText: NSString = oldText.replacingCharacters(in: range, with: string) as NSString
-        
-        
-        doneBarButton.isEnabled = (newText.length > 0)
-        
-        return true
-    }
-    
-    
-    
+    doneBarButton.isEnabled = (newText.length > 0)
+    return true
+  }
 }
