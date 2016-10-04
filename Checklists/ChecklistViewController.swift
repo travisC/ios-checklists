@@ -75,6 +75,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
                      with item: ChecklistItem) {
     let label = cell.viewWithTag(1000) as! UILabel
     label.text = item.text
+    //label.text = "\(item.itemID): \(item.text)"
   }
   
   func itemDetailViewControllerDidCancel(_ controller: ItemDetailViewController) {
